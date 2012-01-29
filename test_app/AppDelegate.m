@@ -10,10 +10,159 @@
 
 @implementation AppDelegate
 
-@synthesize window = _window;
+@synthesize window, navigationController;
+
+@synthesize managedObjectContext;
+@synthesize questionListTableViewController; 
+
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
+    questionListTableViewController.managedObjectContext = self.managedObjectContext;
+    NSLog(@"inside appdidfinishlaunching") ;
+}
+
+/*
+-(NSManagedObjectContext*) managedObjectContext {
+    if (managedObjectContext == nil){
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0]:nil;
+        NSURL *storeUrl = [NSURL fileURLWithPath: [basePath stringByAppendingPathComponent:@"test_app.sqlite"]];
+        NSError *error;
+        NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[NSManagedObjectModel mergedModelFromBundles:nil]];
+        if(![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error: &error]){
+            NSLog(@"Error loading persistant store...");
+        }
+        managedObjectContext = [[NSManagedObjectContext alloc] init];
+        [managedObjectContext setPersistentStoreCoordinator:persistentStoreCoordinator];
+    }
+    return managedObjectContext;
+}*/
+
+- (NSManagedObjectContext *)managedObjectContext {
+    if (managedObjectContext != nil){
+        return managedObjectContext;
+    }
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if (coordinator != nil){
+        managedObjectContext = [NSManagedObjectContext new];
+        [managedObjectContext setPersistentStoreCoordinator:coordinator];
+    }
+    return managedObjectContext;
+}
+- (NSManagedObjectModel *)managedObjectModel {
+    if (managedObjectModel != nil){
+        return managedObjectModel;
+    }
+    managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
+    return managedObjectModel;
+}
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+    if (persistentStoreCoordinator != nil) {
+        return persistentStoreCoordinator;
+    }
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0]:nil;
+    NSURL *storeUrl = [NSURL fileURLWithPath: [basePath stringByAppendingPathComponent:@"test_app.sqlite"]];
+    NSError *error;
+    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    if(![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error: &error]){
+        NSLog(@"Error loading persistant store...");
+        abort();
+    }
+    return persistentStoreCoordinator;
+}
+
+-(void) UploadData {
+  /*  Questions* _question1 = (Questions*)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:self.managedObjectContext];
+    _question1.name = @"What is the result of 1 + 2 = ?";
+   */
+    Questions* _question2 = (Questions*)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:self.managedObjectContext];
+    _question2.name = @"What is the result of 2 + 8 = ?";
+    Questions* _question3 = (Questions*)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:self.managedObjectContext];
+    _question3.name = @"What is the result of 2 - 2 = ?";
+    Questions* _question4 = (Questions*)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:self.managedObjectContext];
+    _question4.name = @"What is the result of 4 * 3 = ?";
+    
+    Answers* _answer2_1 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer2_1.name = @"ten";
+    _answer2_1.correct = true;
+    Answers* _answer2_2 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer2_2.name = @"nine";
+    Answers* _answer2_3 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer2_3.name = @"twelve";
+    Answers* _answer2_4 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer2_4.name = @"eleven";
+    
+    Answers* _answer3_1 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer3_1.name = @"zero";
+    _answer3_1.correct = true;
+    Answers* _answer3_2 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer3_2.name = @"five";
+    Answers* _answer3_3 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer3_3.name = @"minus one";
+    Answers* _answer3_4 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer3_4.name = @"minus three";
+    
+    Answers* _answer4_1 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer4_1.name = @"one";
+   
+    Answers* _answer4_2 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer4_2.name = @"five";
+    Answers* _answer4_3 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer4_3.name = @"twelve";
+     _answer4_3.correct = true;
+    Answers* _answer4_4 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer4_4.name = @"seven";
+    
+    NSError *error = nil;
+    
+    [_question2 addAnswerObject:_answer2_1];
+    [_question2 addAnswerObject:_answer2_2];
+    [_question2 addAnswerObject:_answer2_3];
+    [_question2 addAnswerObject:_answer2_4];
+    
+    [_question3 addAnswerObject:_answer3_1];
+    [_question3 addAnswerObject:_answer3_2];
+    [_question3 addAnswerObject:_answer3_3];
+    [_question3 addAnswerObject:_answer3_4];
+    
+    [_question4 addAnswerObject:_answer4_1];
+    [_question4 addAnswerObject:_answer4_2];
+    [_question4 addAnswerObject:_answer4_3];
+    [_question4 addAnswerObject:_answer4_4];
+    
+    
+    if ([self.managedObjectContext hasChanges]){
+        [self.managedObjectContext save:&error];
+        if (error){
+            NSLog(@"Error on save data %@",[error localizedDescription]);
+        }
+    }
+    
+}
+-(void) ConsoleOutput {
+    NSFetchRequest* _fetchReq = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Questions" inManagedObjectContext:self.managedObjectContext];
+    [_fetchReq setEntity:entity];
+    NSArray* _questions = [self.managedObjectContext executeFetchRequest:_fetchReq error: nil];
+    for (int i = 0; i < [_questions count]; i++)
+    {
+        Questions* _question = (Questions*)[_questions objectAtIndex:i];
+        NSLog(@"_question.name : %@",_question.name);
+        
+        NSArray* _answers = [_question.answer allObjects];
+        for (int j = 0; j < [_answers count];j++){
+            Answers* _answer = (Answers*)[_answers objectAtIndex:j];
+            NSLog(@"\t_answer.name : %@ correct: %@", _answer.name,(_answer.correct ? @"YES" : @"NO"));
+        }
+        
+    }
+}
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  //  [self UploadData];
+    [self ConsoleOutput];
     // Override point for customization after application launch.
     return YES;
 }
@@ -50,6 +199,18 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    NSError *error;
+    if (managedObjectContext != nil){
+        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]){
+            /*
+			 Replace this implementation with code to handle the error appropriately.
+			 
+			 abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
+			 */
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }
     /*
      Called when the application is about to terminate.
      Save data if appropriate.
