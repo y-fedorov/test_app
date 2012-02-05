@@ -1,15 +1,15 @@
 //
-//  QuestionListTableViewController.m
+//  EditQuestionTitleController.m
 //  test_app
 //
-//  Created by Yaroslav Fedorov on 02/02/2012.
+//  Created by Yaroslav Fedorov on 04/02/2012.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "QuestionListTableViewController.h"
+#import "EditQuestionTitleController.h"
 
 
-@implementation QuestionListTableViewController
+@implementation EditQuestionTitleController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

@@ -1,15 +1,15 @@
 //
-//  QuestionListTableViewController.m
+//  PerformTestTableViewController.m
 //  test_app
 //
-//  Created by Yaroslav Fedorov on 02/02/2012.
+//  Created by Yaroslav Fedorov on 05/02/2012.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "QuestionListTableViewController.h"
+#import "PerformTestTableViewController.h"
 
 
-@implementation QuestionListTableViewController
+@implementation PerformTestTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
