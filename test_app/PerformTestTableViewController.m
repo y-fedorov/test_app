@@ -7,9 +7,79 @@
 //
 
 #import "PerformTestTableViewController.h"
-
+#import "CoreDataHelper.h"
+#import "TestResultsViewController.h"
+#import "AppDelegate.h"
 
 @implementation PerformTestTableViewController
+
+@synthesize timer, managedObjectContext, questionListData, answerListData, currentQuestion;
+
+#define QUESTION_TITLE 0
+#define ANSWERS_SECTION 1
+
+
+- (void)nextQuestion {
+    currentQuestionIndex++;
+    currentQuestion = [questionListData objectAtIndex:currentQuestionIndex];
+    [self readDataForAnswersTable];
+    [self.tableView reloadData];
+ //   [self.navigationItem setTitle:[NSString stringWithFormat:@"( %d / %d )",currentQuestionIndex,[questionListData count]]];
+}
+
+- (void)finishTest {
+    startTime2 = [NSDate date];
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSMutableDictionary *dic = (NSMutableDictionary *)appDelegate.d1;
+    
+    
+    NSTimeInterval lastDiff = [startTime2 timeIntervalSinceNow];
+    NSTimeInterval todaysDiff = [startTime timeIntervalSinceNow];
+    // NSTimeInterval todaysDiff = [currTime timeIntervalSinceNow];
+    NSTimeInterval dateDiff = lastDiff - todaysDiff;
+    
+    [dic setObject:[NSString stringWithFormat:@"%d", unansweredQuestions] forKey:@"unansweredQuestions"];
+    [dic setObject:[NSString stringWithFormat:@"%d", uncorrectAnswers] forKey:@"uncorrectAnswers"];
+    [dic setObject:[NSString stringWithFormat:@"%d", correctAnwers] forKey:@"correctAnwers"];
+    [dic setObject:[NSString stringWithFormat:@"%d:%d",floor(dateDiff / 60),floor(dateDiff - (dateDiff / 60) * 60)] forKey:@"testingTime"];
+
+     
+    testresults = [self.storyboard instantiateViewControllerWithIdentifier:@"TestResultsController"];
+    [self.navigationController pushViewController:testresults animated:YES];
+
+}
+
+- (void)startTest {
+    correctAnwers = 0;
+    unansweredQuestions = 0;
+    uncorrectAnswers = 0;
+    
+    currentQuestionIndex = 0;
+    currentQuestion = [questionListData objectAtIndex:currentQuestionIndex];
+    [self readDataForAnswersTable];
+    startTime = [NSDate date];
+    
+}
+
+- (void)skipQuestion {
+    unansweredQuestions++;
+    if (currentQuestionIndex < ([questionListData count]-1)){
+        [self nextQuestion];
+    } else {
+        [self finishTest];
+    }
+}
+- (IBAction)skipQuestionBtn:(id)sender {
+    [self skipQuestion];
+}
+
+- (IBAction)finishTestBtn:(id)sender {
+    [self finishTest]; 
+}
+- (IBAction)restartTestBtn:(id)sender {
+    [self startTest];
+    [self.tableView reloadData];
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -46,11 +116,45 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    
+   
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self readDataForTable];
+    [self startTest];
+    
+    
+   /* TIMER!!!
+    NSDate* currentDate = [NSDate date];
+    
+    NSDateFormatter *formatter = nil;
+	formatter = [[NSDateFormatter alloc] init];
+	[formatter setTimeStyle:NSDateFormatterShortStyle];
+	NSLog(@"Current time: %@", [formatter stringFromDate:currentDate]);
+    
+    timer = [NSTimer scheduledTimerWithTimeInterval:40.0 target:self selector:@selector(theActionMethod) userInfo:nil repeats:NO];
+    
+    //sleep(456);
+    
+    NSDate *now = [NSDate date];
+    NSLog(@"Current now time: %@", [formatter stringFromDate:now]);
+    NSTimeInterval lastDiff = [currentDate timeIntervalSinceNow];
+    NSTimeInterval todaysDiff = [now timeIntervalSinceNow];
+    NSTimeInterval dateDiff = lastDiff - todaysDiff;
+    NSInteger minutes = floor(dateDiff / 60);
+    NSInteger seconds = floor(dateDiff - minutes * 60);
+    NSLog(@"Between: %d:%d",minutes,seconds);
+    */
+}
+
+// TIMERS METHOD!
+- (void)theActionMethod {
+    NSLog(@"Me is here at 1 minute delay");
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -78,16 +182,30 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
+    NSInteger rows = 0;
+    
+    switch (section) {
+        case QUESTION_TITLE:
+            rows = 1;
+            break;
+        case ANSWERS_SECTION:
+            rows = [currentQuestion.answer count];
+         //   rows = [answerListData count];
+            //rows = 4;
+            break;
+        default:
+            break;
+    }
+
+    
     // Return the number of rows in the section.
-    return 0;
+    return rows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -97,6 +215,15 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    if (indexPath.section == QUESTION_TITLE){
+        cell.textLabel.text = [currentQuestion name];
+    } else if (indexPath.section == ANSWERS_SECTION){
+      
+        Answers *currAnswer = [answerListData objectAtIndex:indexPath.row];
+        cell.textLabel.text = currAnswer.name;
+    } else {
+        
     }
     
     // Configure the cell...
@@ -143,17 +270,47 @@
 }
 */
 
+#pragma mark - Work with data
+
+- (void)readDataForTable {
+    questionListData = [CoreDataHelper getObjectsForEntity:@"Questions" withSortKey:nil andSortAscending:YES andContext:self.managedObjectContext];
+    
+    //[self.tableView reloadData];
+}
+
+- (void)readDataForAnswersTable {
+    answerListData = [[NSMutableArray alloc] initWithArray:[currentQuestion.answer allObjects]];
+    
+   // [self.tableView reloadData];
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    switch (indexPath.section) {
+        case ANSWERS_SECTION:
+            if (currentQuestionIndex < ([questionListData count]-1)){
+                    
+                Answers *currAnswer = [answerListData objectAtIndex:indexPath.row];
+                //WARN! Error!
+                if (currAnswer.correct == YES){
+                    correctAnwers++;
+                } else {
+                    uncorrectAnswers++;
+                }
+                [self nextQuestion];
+                
+            } else {
+                [self finishTest];
+            }
+            break;
+            
+        default:
+            break;
+    }
+    
 }
 
 @end

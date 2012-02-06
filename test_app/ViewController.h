@@ -10,4 +10,8 @@
 
 @interface ViewController : UIViewController
 
+@property (strong, nonatomic) NSManagedObjectContext *manageObjectContext;
+
+- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender;
+
 @end

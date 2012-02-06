@@ -25,7 +25,6 @@
 		A9F4956014DDB45900765A27 /* EditQuestionTitleController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4955F14DDB45900765A27 /* EditQuestionTitleController.m */; };
 		A9F4956814DEAE9100765A27 /* PerformTestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4956714DEAE9100765A27 /* PerformTestTableViewController.m */; };
 		A9F4956D14DEEBC200765A27 /* TestResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4956C14DEEBC100765A27 /* TestResultsViewController.m */; };
-		A9F4957014DF402400765A27 /* ResultSetDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4956F14DF402300765A27 /* ResultSetDataObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,8 +59,6 @@
 		A9F4956714DEAE9100765A27 /* PerformTestTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerformTestTableViewController.m; sourceTree = "<group>"; };
 		A9F4956B14DEEBC100765A27 /* TestResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestResultsViewController.h; sourceTree = "<group>"; };
 		A9F4956C14DEEBC100765A27 /* TestResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestResultsViewController.m; sourceTree = "<group>"; };
-		A9F4956E14DF402200765A27 /* ResultSetDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultSetDataObject.h; sourceTree = "<group>"; };
-		A9F4956F14DF402300765A27 /* ResultSetDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultSetDataObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,8 +122,6 @@
 		A9E8DAC914D53C4600B68340 /* test_app */ = {
 			isa = PBXGroup;
 			children = (
-				A9F4956E14DF402200765A27 /* ResultSetDataObject.h */,
-				A9F4956F14DF402300765A27 /* ResultSetDataObject.m */,
 				A9F4956914DEAE9A00765A27 /* PerformTest */,
 				A9F4956A14DEAEC100765A27 /* ManageTestData */,
 				A932059914D5A7B500043389 /* Model and Model Classes */,
@@ -249,7 +244,6 @@
 				A9F4956014DDB45900765A27 /* EditQuestionTitleController.m in Sources */,
 				A9F4956814DEAE9100765A27 /* PerformTestTableViewController.m in Sources */,
 				A9F4956D14DEEBC200765A27 /* TestResultsViewController.m in Sources */,
-				A9F4957014DF402400765A27 /* ResultSetDataObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

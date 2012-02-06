@@ -7,79 +7,69 @@
 //
 
 #import "AppDelegate.h"
+#import "QuestionListTableViewController.h"
+#import "ViewController.h"
 
 @implementation AppDelegate
 
-@synthesize window, navigationController;
+@synthesize window = _window;
 
-@synthesize managedObjectContext;
-@synthesize questionListTableViewController; 
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {
-    questionListTableViewController.managedObjectContext = self.managedObjectContext;
-    NSLog(@"inside appdidfinishlaunching") ;
-}
+@synthesize managedObjectContext = __managedObjectContext;
+@synthesize managedObjectModel = __managedObjectModel;
+@synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
+@synthesize d1;
 
-/*
--(NSManagedObjectContext*) managedObjectContext {
-    if (managedObjectContext == nil){
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0]:nil;
-        NSURL *storeUrl = [NSURL fileURLWithPath: [basePath stringByAppendingPathComponent:@"test_app.sqlite"]];
-        NSError *error;
-        NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[NSManagedObjectModel mergedModelFromBundles:nil]];
-        if(![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error: &error]){
-            NSLog(@"Error loading persistant store...");
-        }
-        managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [managedObjectContext setPersistentStoreCoordinator:persistentStoreCoordinator];
-    }
-    return managedObjectContext;
-}*/
+
 
 - (NSManagedObjectContext *)managedObjectContext {
-    if (managedObjectContext != nil){
-        return managedObjectContext;
+    if (__managedObjectContext != nil)
+    {
+        return __managedObjectContext;
     }
+    
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil){
-        managedObjectContext = [NSManagedObjectContext new];
-        [managedObjectContext setPersistentStoreCoordinator:coordinator];
+    if (coordinator != nil)
+    {
+        __managedObjectContext = [[NSManagedObjectContext alloc] init];
+        [__managedObjectContext setPersistentStoreCoordinator:coordinator];
     }
-    return managedObjectContext;
+    return __managedObjectContext;
 }
+
 - (NSManagedObjectModel *)managedObjectModel {
-    if (managedObjectModel != nil){
-        return managedObjectModel;
+    if (__managedObjectModel != nil){
+        return __managedObjectModel;
     }
-    managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
-    return managedObjectModel;
+    __managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
+    return __managedObjectModel;
 }
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-    if (persistentStoreCoordinator != nil) {
-        return persistentStoreCoordinator;
+    if (__persistentStoreCoordinator != nil) {
+        return __persistentStoreCoordinator;
     }
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0]:nil;
     NSURL *storeUrl = [NSURL fileURLWithPath: [basePath stringByAppendingPathComponent:@"test_app.sqlite"]];
     NSError *error;
-    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if(![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error: &error]){
+    __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    if(![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error: &error]){
         NSLog(@"Error loading persistant store...");
         abort();
     }
-    return persistentStoreCoordinator;
+    return __persistentStoreCoordinator;
 }
 
 -(void) UploadData {
   /*  Questions* _question1 = (Questions*)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:self.managedObjectContext];
     _question1.name = @"What is the result of 1 + 2 = ?";
    */
-    Questions* _question2 = (Questions*)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:self.managedObjectContext];
+     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
+    Questions* _question2 = (Questions*)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:managedObjectContext];
     _question2.name = @"What is the result of 2 + 8 = ?";
-    Questions* _question3 = (Questions*)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:self.managedObjectContext];
+    Questions* _question3 = (Questions*)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:managedObjectContext];
     _question3.name = @"What is the result of 2 - 2 = ?";
-    Questions* _question4 = (Questions*)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:self.managedObjectContext];
+    Questions* _question4 = (Questions*)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:managedObjectContext];
     _question4.name = @"What is the result of 4 * 3 = ?";
     
     Answers* _answer2_1 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
@@ -163,7 +153,19 @@
 {
   //  [self UploadData];
     [self ConsoleOutput];
+    NSLog(@"LOG0: %@",self.managedObjectContext);
+       
+   // self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    
+    ViewController *rootView = (ViewController *)self.window.rootViewController;
+    rootView.manageObjectContext = self.managedObjectContext;
+    
+    d1 = [[NSMutableDictionary alloc] init];
+    [d1 setObject:[NSString stringWithFormat:@"%d", 55] forKey:@"test"];
+    
+   // self.window.backgroundColor = [UIColor whiteColor];
+   // [self.window makeKeyAndVisible];
     return YES;
 }
 							
@@ -199,9 +201,9 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    NSError *error;
-    if (managedObjectContext != nil){
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]){
+    NSError *error = nil;
+    if (__managedObjectContext != nil){
+        if ([__managedObjectContext hasChanges] && ![__managedObjectContext save:&error]){
             /*
 			 Replace this implementation with code to handle the error appropriately.
 			 

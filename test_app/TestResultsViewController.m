@@ -7,8 +7,12 @@
 //
 
 #import "TestResultsViewController.h"
+#import "AppDelegate.h"
 
 @implementation TestResultsViewController
+
+@synthesize unansweredQuestions, uncorrectAnswers, correctAnswers, testingTime;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,13 +40,38 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
+    
     [super viewDidLoad];
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSMutableDictionary *dic = (NSMutableDictionary *)appDelegate.d1;
+    
+    
+    uncorrectAnswers.text = [dic objectForKey:@"uncorrectAnswers"];
+    unansweredQuestions.text = [dic objectForKey:@"unansweredQuestions"];
+    correctAnswers.text = [dic objectForKey:@"correctAnwers"];
+    testingTime.text = [dic objectForKey:@"testingTime"];
+    
+    //NSLog(@"D1:: %@",dic);
+    
 }
-*/
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+  
+    //d1 = [NSMutableDictionary dictionaryWithCapacity:4];
+   /* [dic setObject:[NSString stringWithFormat:@"%d", unansweredQuestions] forKey:@"unansweredQuestions"];
+    [dic setObject:[NSString stringWithFormat:@"%d", uncorrectAnswers] forKey:@"uncorrectAnswers"];
+    [dic setObject:[NSString stringWithFormat:@"%d", unansweredQuestions] forKey:@"unansweredQuestions"];
+ */   
+ //   unansweredQuestions.text = unansweredQuestionsEE;
+   // NSLog(@"unansweredQuestions: %@",unansweredQuestionsEE);
+    
+}
 
 - (void)viewDidUnload
 {

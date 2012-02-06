@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TestResultsViewController : UIViewController
+@interface TestResultsViewController : UIViewController <UINavigationControllerDelegate>
+
+
+@property (nonatomic, retain) IBOutlet UILabel *unansweredQuestions;
+@property (nonatomic, retain) IBOutlet UILabel *uncorrectAnswers;
+@property (nonatomic, retain) IBOutlet UILabel *correctAnswers;
+@property (nonatomic, retain) IBOutlet UILabel *testingTime;
 
 @end

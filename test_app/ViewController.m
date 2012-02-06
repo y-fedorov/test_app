@@ -7,8 +7,12 @@
 //
 
 #import "ViewController.h"
+#import "QuestionListTableViewController.h"
+#import "PerformTestTableViewController.h"
 
 @implementation ViewController
+
+@synthesize manageObjectContext;
 
 - (void)didReceiveMemoryWarning
 {
@@ -55,6 +59,32 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"ManageQestionList"]) 
+    {
+        UINavigationController *navController = (UINavigationController *)[segue destinationViewController];
+        QuestionListTableViewController *qestionListTableViewController = (QuestionListTableViewController *)[[navController viewControllers] lastObject];
+        qestionListTableViewController.managedObjectContext = manageObjectContext;
+    
+    } else if ([[segue identifier] isEqualToString:@"PerformTest"])
+    {
+        UINavigationController *navController = (UINavigationController *)[segue destinationViewController];
+        PerformTestTableViewController *performTestTableViewController = (PerformTestTableViewController *)[[navController viewControllers] lastObject];
+        performTestTableViewController.managedObjectContext = manageObjectContext;
+        
+       /* PerformTestTableViewController *performTestTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PerformTestTableViewController"];
+        */
+       // performTestTableViewController.managedObjectContext = self.manageObjectContext;
+        
+        
+       // [self.navigationController pushViewController:performTestTableViewController animated:YES];
+    } else
+    {
+        [super prepareForSegue:segue sender:sender];
+    }
 }
 
 @end

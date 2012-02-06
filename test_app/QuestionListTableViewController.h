@@ -10,4 +10,9 @@
 
 @interface QuestionListTableViewController : UITableViewController
 
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) NSMutableArray *questionListData;
+
+- (void)readDataForTable;
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender;
 @end
