@@ -7,30 +7,61 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A932059114D55D0E00043389 /* Answers.m in Sources */ = {isa = PBXBuildFile; fileRef = A932059014D55D0D00043389 /* Answers.m */; };
+		A932059414D55D0E00043389 /* Questions.m in Sources */ = {isa = PBXBuildFile; fileRef = A932059314D55D0E00043389 /* Questions.m */; };
+		A995B56714D606B80029B578 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8DAD314D53C4700B68340 /* AppDelegate.m */; };
+		A9DE8FD314DB1B180038825E /* QuestionListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DE8FD214DB1B180038825E /* QuestionListTableViewController.m */; };
+		A9DE8FD614DB26D70038825E /* CoreDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DE8FD514DB26D70038825E /* CoreDataHelper.m */; };
+		A9DE8FD914DB30660038825E /* QuestionDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DE8FD814DB30660038825E /* QuestionDetailController.m */; };
 		A9E8DAC414D53C4600B68340 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9E8DAC314D53C4600B68340 /* UIKit.framework */; };
 		A9E8DAC614D53C4600B68340 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9E8DAC514D53C4600B68340 /* Foundation.framework */; };
 		A9E8DAC814D53C4600B68340 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9E8DAC714D53C4600B68340 /* CoreGraphics.framework */; };
 		A9E8DACE14D53C4700B68340 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A9E8DACC14D53C4700B68340 /* InfoPlist.strings */; };
 		A9E8DAD014D53C4700B68340 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8DACF14D53C4700B68340 /* main.m */; };
-		A9E8DAD414D53C4700B68340 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8DAD314D53C4700B68340 /* AppDelegate.m */; };
 		A9E8DAD714D53C4700B68340 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9E8DAD514D53C4700B68340 /* MainStoryboard.storyboard */; };
 		A9E8DADA14D53C4700B68340 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8DAD914D53C4700B68340 /* ViewController.m */; };
+		A9E8DAE114D53C5A00B68340 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9E8DAE014D53C5A00B68340 /* CoreData.framework */; };
+		A9E8DAE414D53CD800B68340 /* test_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A9E8DAE214D53CD800B68340 /* test_app.xcdatamodeld */; };
+		A9F4956014DDB45900765A27 /* EditQuestionTitleController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4955F14DDB45900765A27 /* EditQuestionTitleController.m */; };
+		A9F4956814DEAE9100765A27 /* PerformTestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4956714DEAE9100765A27 /* PerformTestTableViewController.m */; };
+		A9F4956D14DEEBC200765A27 /* TestResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4956C14DEEBC100765A27 /* TestResultsViewController.m */; };
+		A9F4957014DF402400765A27 /* ResultSetDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4956F14DF402300765A27 /* ResultSetDataObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A932058F14D55D0D00043389 /* Answers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Answers.h; path = test_app/Answers.h; sourceTree = "<group>"; };
+		A932059014D55D0D00043389 /* Answers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Answers.m; path = test_app/Answers.m; sourceTree = "<group>"; };
+		A932059214D55D0E00043389 /* Questions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Questions.h; path = test_app/Questions.h; sourceTree = "<group>"; };
+		A932059314D55D0E00043389 /* Questions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Questions.m; path = test_app/Questions.m; sourceTree = "<group>"; };
+		A9DE8FD114DB1B180038825E /* QuestionListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionListTableViewController.h; sourceTree = "<group>"; };
+		A9DE8FD214DB1B180038825E /* QuestionListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionListTableViewController.m; sourceTree = "<group>"; };
+		A9DE8FD414DB26D70038825E /* CoreDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataHelper.h; path = test_app/CoreDataHelper.h; sourceTree = "<group>"; };
+		A9DE8FD514DB26D70038825E /* CoreDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataHelper.m; path = test_app/CoreDataHelper.m; sourceTree = "<group>"; };
+		A9DE8FD714DB30660038825E /* QuestionDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionDetailController.h; sourceTree = "<group>"; };
+		A9DE8FD814DB30660038825E /* QuestionDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionDetailController.m; sourceTree = "<group>"; };
 		A9E8DABF14D53C4600B68340 /* test_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9E8DAC314D53C4600B68340 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A9E8DAC514D53C4600B68340 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A9E8DAC714D53C4600B68340 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		A9E8DACB14D53C4700B68340 /* test_app-Info.plist */ = {isa = PBXFileReference; path = "test_app-Info.plist"; sourceTree = "<group>"; };
+		A9E8DACB14D53C4700B68340 /* test_app-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "test_app-Info.plist"; sourceTree = "<group>"; };
 		A9E8DACD14D53C4700B68340 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A9E8DACF14D53C4700B68340 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		A9E8DAD114D53C4700B68340 /* test_app-Prefix.pch */ = {isa = PBXFileReference; path = "test_app-Prefix.pch"; sourceTree = "<group>"; };
-		A9E8DAD214D53C4700B68340 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		A9E8DAD114D53C4700B68340 /* test_app-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "test_app-Prefix.pch"; sourceTree = "<group>"; };
+		A9E8DAD214D53C4700B68340 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A9E8DAD314D53C4700B68340 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		A9E8DAD614D53C4700B68340 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		A9E8DAD814D53C4700B68340 /* ViewController.h */ = {isa = PBXFileReference; path = ViewController.h; sourceTree = "<group>"; };
+		A9E8DAD814D53C4700B68340 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		A9E8DAD914D53C4700B68340 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		A9E8DAE014D53C5A00B68340 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		A9E8DAE314D53CD800B68340 /* test_app.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = test_app.xcdatamodel; sourceTree = "<group>"; };
+		A9F4955E14DDB45900765A27 /* EditQuestionTitleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditQuestionTitleController.h; sourceTree = "<group>"; };
+		A9F4955F14DDB45900765A27 /* EditQuestionTitleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditQuestionTitleController.m; sourceTree = "<group>"; };
+		A9F4956614DEAE9000765A27 /* PerformTestTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerformTestTableViewController.h; sourceTree = "<group>"; };
+		A9F4956714DEAE9100765A27 /* PerformTestTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerformTestTableViewController.m; sourceTree = "<group>"; };
+		A9F4956B14DEEBC100765A27 /* TestResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestResultsViewController.h; sourceTree = "<group>"; };
+		A9F4956C14DEEBC100765A27 /* TestResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestResultsViewController.m; sourceTree = "<group>"; };
+		A9F4956E14DF402200765A27 /* ResultSetDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultSetDataObject.h; sourceTree = "<group>"; };
+		A9F4956F14DF402300765A27 /* ResultSetDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultSetDataObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9E8DAE114D53C5A00B68340 /* CoreData.framework in Frameworks */,
 				A9E8DAC414D53C4600B68340 /* UIKit.framework in Frameworks */,
 				A9E8DAC614D53C4600B68340 /* Foundation.framework in Frameworks */,
 				A9E8DAC814D53C4600B68340 /* CoreGraphics.framework in Frameworks */,
@@ -47,9 +79,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A932059914D5A7B500043389 /* Model and Model Classes */ = {
+			isa = PBXGroup;
+			children = (
+				A9DE8FD414DB26D70038825E /* CoreDataHelper.h */,
+				A9DE8FD514DB26D70038825E /* CoreDataHelper.m */,
+				A932058F14D55D0D00043389 /* Answers.h */,
+				A932059214D55D0E00043389 /* Questions.h */,
+				A932059314D55D0E00043389 /* Questions.m */,
+				A932059014D55D0D00043389 /* Answers.m */,
+				A9E8DAE214D53CD800B68340 /* test_app.xcdatamodeld */,
+			);
+			name = "Model and Model Classes";
+			path = ..;
+			sourceTree = "<group>";
+		};
 		A9E8DAB414D53C4600B68340 = {
 			isa = PBXGroup;
 			children = (
+				A9E8DAE014D53C5A00B68340 /* CoreData.framework */,
 				A9E8DAC914D53C4600B68340 /* test_app */,
 				A9E8DAC214D53C4600B68340 /* Frameworks */,
 				A9E8DAC014D53C4600B68340 /* Products */,
@@ -77,9 +125,13 @@
 		A9E8DAC914D53C4600B68340 /* test_app */ = {
 			isa = PBXGroup;
 			children = (
+				A9F4956E14DF402200765A27 /* ResultSetDataObject.h */,
+				A9F4956F14DF402300765A27 /* ResultSetDataObject.m */,
+				A9F4956914DEAE9A00765A27 /* PerformTest */,
+				A9F4956A14DEAEC100765A27 /* ManageTestData */,
+				A932059914D5A7B500043389 /* Model and Model Classes */,
 				A9E8DAD214D53C4700B68340 /* AppDelegate.h */,
 				A9E8DAD314D53C4700B68340 /* AppDelegate.m */,
-				A9E8DAD514D53C4700B68340 /* MainStoryboard.storyboard */,
 				A9E8DAD814D53C4700B68340 /* ViewController.h */,
 				A9E8DAD914D53C4700B68340 /* ViewController.m */,
 				A9E8DACA14D53C4700B68340 /* Supporting Files */,
@@ -90,12 +142,37 @@
 		A9E8DACA14D53C4700B68340 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A9E8DAD514D53C4700B68340 /* MainStoryboard.storyboard */,
 				A9E8DACB14D53C4700B68340 /* test_app-Info.plist */,
 				A9E8DACC14D53C4700B68340 /* InfoPlist.strings */,
 				A9E8DACF14D53C4700B68340 /* main.m */,
 				A9E8DAD114D53C4700B68340 /* test_app-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A9F4956914DEAE9A00765A27 /* PerformTest */ = {
+			isa = PBXGroup;
+			children = (
+				A9F4956B14DEEBC100765A27 /* TestResultsViewController.h */,
+				A9F4956C14DEEBC100765A27 /* TestResultsViewController.m */,
+				A9F4956614DEAE9000765A27 /* PerformTestTableViewController.h */,
+				A9F4956714DEAE9100765A27 /* PerformTestTableViewController.m */,
+			);
+			name = PerformTest;
+			sourceTree = "<group>";
+		};
+		A9F4956A14DEAEC100765A27 /* ManageTestData */ = {
+			isa = PBXGroup;
+			children = (
+				A9F4955E14DDB45900765A27 /* EditQuestionTitleController.h */,
+				A9F4955F14DDB45900765A27 /* EditQuestionTitleController.m */,
+				A9DE8FD714DB30660038825E /* QuestionDetailController.h */,
+				A9DE8FD814DB30660038825E /* QuestionDetailController.m */,
+				A9DE8FD114DB1B180038825E /* QuestionListTableViewController.h */,
+				A9DE8FD214DB1B180038825E /* QuestionListTableViewController.m */,
+			);
+			name = ManageTestData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,8 +238,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9E8DAD014D53C4700B68340 /* main.m in Sources */,
-				A9E8DAD414D53C4700B68340 /* AppDelegate.m in Sources */,
 				A9E8DADA14D53C4700B68340 /* ViewController.m in Sources */,
+				A9E8DAE414D53CD800B68340 /* test_app.xcdatamodeld in Sources */,
+				A932059114D55D0E00043389 /* Answers.m in Sources */,
+				A932059414D55D0E00043389 /* Questions.m in Sources */,
+				A995B56714D606B80029B578 /* AppDelegate.m in Sources */,
+				A9DE8FD314DB1B180038825E /* QuestionListTableViewController.m in Sources */,
+				A9DE8FD614DB26D70038825E /* CoreDataHelper.m in Sources */,
+				A9DE8FD914DB30660038825E /* QuestionDetailController.m in Sources */,
+				A9F4956014DDB45900765A27 /* EditQuestionTitleController.m in Sources */,
+				A9F4956814DEAE9100765A27 /* PerformTestTableViewController.m in Sources */,
+				A9F4956D14DEEBC200765A27 /* TestResultsViewController.m in Sources */,
+				A9F4957014DF402400765A27 /* ResultSetDataObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,8 +361,23 @@
 				A9E8DADF14D53C4700B68340 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A9E8DAE214D53CD800B68340 /* test_app.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A9E8DAE314D53CD800B68340 /* test_app.xcdatamodel */,
+			);
+			currentVersion = A9E8DAE314D53CD800B68340 /* test_app.xcdatamodel */;
+			name = test_app.xcdatamodeld;
+			path = test_app/test_app.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A9E8DAB614D53C4600B68340 /* Project object */;
 }
