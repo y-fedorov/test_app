@@ -7,7 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Answers.h"
+@class SelCorrectAnswerTableViewController;
+
+@protocol SelCorrectAnswersDelegate <NSObject>
+- (void)selCorrectAnswersViewController:(SelCorrectAnswerTableViewController *)controller didSelectAnswer:(NSString *)answer;
+@end
 
 @interface SelCorrectAnswerTableViewController : UITableViewController
+
+@property (nonatomic, weak) id <SelCorrectAnswersDelegate> delegate;
+
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
+//AnswerList Data
+@property (strong, nonatomic) NSMutableArray *answerListData;
 
 @end

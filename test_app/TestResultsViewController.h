@@ -15,5 +15,5 @@
 @property (nonatomic, retain) IBOutlet UILabel *uncorrectAnswers;
 @property (nonatomic, retain) IBOutlet UILabel *correctAnswers;
 @property (nonatomic, retain) IBOutlet UILabel *testingTime;
-
+-(IBAction)cancelPressed;
 @end

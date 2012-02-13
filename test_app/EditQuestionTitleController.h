@@ -10,11 +10,24 @@
 #import "Questions.h"
 #import "Answers.h"
 
-@interface EditQuestionTitleController : UITableViewController <UINavigationControllerDelegate>
+/*
+//delegate to return amount entered by the user
+@protocol EnterAnswerTitleDelegate <NSObject>
+
+-(void)answerTitleEntered:(NSString *)answer_title answer_n:(NSInteger)answer_n;
+
+@end
+*/
+@interface EditQuestionTitleController : UITableViewController <UINavigationControllerDelegate>{
+  //  id<EnterAnswerTitleDelegate> delegate;
+    
+}
+
+//@property (nonatomic, strong) id delegate;
+
 
 @property (strong, nonatomic) Questions *currentQuestion;
 @property (strong, nonatomic) Answers *currentAnswer;
-
 
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
@@ -22,5 +35,7 @@
 //@property (strong, nonatomic) IBOutlet UISwitch *AnswerDefaultSwitch;
 - (IBAction)editSaveButtonPressed:(id)sender;
 
+//-(IBAction)cancelPressed;
+//-(IBAction)savePressed;
 
 @end

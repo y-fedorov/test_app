@@ -55,22 +55,12 @@
     correctAnswers.text = [dic objectForKey:@"correctAnwers"];
     testingTime.text = [dic objectForKey:@"testingTime"];
     
-    //NSLog(@"D1:: %@",dic);
+   
     
 }
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-  
-    //d1 = [NSMutableDictionary dictionaryWithCapacity:4];
-   /* [dic setObject:[NSString stringWithFormat:@"%d", unansweredQuestions] forKey:@"unansweredQuestions"];
-    [dic setObject:[NSString stringWithFormat:@"%d", uncorrectAnswers] forKey:@"uncorrectAnswers"];
-    [dic setObject:[NSString stringWithFormat:@"%d", unansweredQuestions] forKey:@"unansweredQuestions"];
- */   
- //   unansweredQuestions.text = unansweredQuestionsEE;
-   // NSLog(@"unansweredQuestions: %@",unansweredQuestionsEE);
-    
 }
 
 - (void)viewDidUnload
@@ -85,5 +75,7 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
+-(IBAction)cancelPressed {
+    [self dismissModalViewControllerAnimated:YES];
+}
 @end

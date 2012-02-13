@@ -11,6 +11,8 @@
 
 @implementation SelCorrectAnswerTableViewController
 
+@synthesize managedObjectContext, answerListData, delegate;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -78,16 +80,16 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
+//#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
+//#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [answerListData count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -98,7 +100,13 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
+    cell.textLabel.text = [[answerListData objectAtIndex:indexPath.row] name];
+
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    if ([[answerListData objectAtIndex:indexPath.row] correct ] == YES){
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+
     // Configure the cell...
     
     return cell;
@@ -147,13 +155,27 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSLog(@"selectedIndex: %i", indexPath.row);
+    
+    for (int i = 0; i < [answerListData count]; i++) {
+        if (i != indexPath.row){
+            [[answerListData objectAtIndex:i] setCorrect:NO];
+        } else {
+            [[answerListData objectAtIndex:i] setCorrect:YES];
+        }
+            
+    }
+    [self.delegate selCorrectAnswersViewController:self didSelectAnswer:[answerListData objectAtIndex:indexPath.row]];
+
+    NSError *error = nil;
+    if (![self.managedObjectContext save:&error])
+        NSLog(@"Failed to add new question item with error: %@",[error domain]);
+    
+    
+    
+    //[self.tableView reloadData];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

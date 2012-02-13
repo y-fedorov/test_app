@@ -7,12 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddQuestionTitleController.h"
 
-@interface QuestionListTableViewController : UITableViewController
+@interface QuestionListTableViewController : UITableViewController <AddQuestionTitleDelegate, UIAlertViewDelegate> {
+    NSIndexPath *deleteIndexPath;
+}
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) NSMutableArray *questionListData;
 
 - (void)readDataForTable;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender;
+- (IBAction)cancelPressed;
+- (void) DeleteQuestion:(NSUInteger)selectedIndex;
 @end

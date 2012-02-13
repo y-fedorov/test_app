@@ -48,9 +48,27 @@
     if (__persistentStoreCoordinator != nil) {
         return __persistentStoreCoordinator;
     }
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0]:nil;
-    NSURL *storeUrl = [NSURL fileURLWithPath: [basePath stringByAppendingPathComponent:@"test_app.sqlite"]];
+
+    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"test_app.sqlite"];
+    NSLog(@"PATH: %@",path);
+    
+    
+    /*
+	 Set up the store.
+	 For the sake of illustration, provide a pre-populated default store.
+	 */
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	// If the expected store doesn't exist, copy the default store.
+	if (![fileManager fileExistsAtPath:path]) {
+		NSString *defaultStorePath = [[NSBundle mainBundle] pathForResource:@"test_app" ofType:@"sqlite"];
+        if (defaultStorePath) {
+			[fileManager copyItemAtPath:defaultStorePath toPath:path error:NULL];
+		}
+	}
+    
+    
+   // NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0]:nil;
+    NSURL *storeUrl = [NSURL fileURLWithPath:path];
     NSError *error;
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     if(![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error: &error]){
@@ -61,9 +79,9 @@
 }
 
 -(void) UploadData {
-  /*  Questions* _question1 = (Questions*)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:self.managedObjectContext];
+    Questions* _question1 = (Questions*)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:self.managedObjectContext];
     _question1.name = @"What is the result of 1 + 2 = ?";
-   */
+   
      NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     Questions* _question2 = (Questions*)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:managedObjectContext];
     _question2.name = @"What is the result of 2 + 8 = ?";
@@ -71,6 +89,18 @@
     _question3.name = @"What is the result of 2 - 2 = ?";
     Questions* _question4 = (Questions*)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:managedObjectContext];
     _question4.name = @"What is the result of 4 * 3 = ?";
+   
+    Answers* _answer1_1 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer1_1.name = @"ten";
+    
+    Answers* _answer1_2 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer1_2.name = @"nine";
+    Answers* _answer1_3 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer1_3.name = @"three";
+    _answer1_3.correct = true;
+    Answers* _answer1_4 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+    _answer1_4.name = @"eleven";
+
     
     Answers* _answer2_1 = (Answers*)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
     _answer2_1.name = @"ten";
@@ -152,18 +182,21 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   //  [self UploadData];
-    [self ConsoleOutput];
-    NSLog(@"LOG0: %@",self.managedObjectContext);
+  //  [self ConsoleOutput];
+   
        
    // self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+   
+   
+    
     
     ViewController *rootView = (ViewController *)self.window.rootViewController;
     rootView.manageObjectContext = self.managedObjectContext;
     
     d1 = [[NSMutableDictionary alloc] init];
     [d1 setObject:[NSString stringWithFormat:@"%d", 55] forKey:@"test"];
-    
+
    // self.window.backgroundColor = [UIColor whiteColor];
    // [self.window makeKeyAndVisible];
     return YES;

@@ -9,10 +9,11 @@
 #import "ViewController.h"
 #import "QuestionListTableViewController.h"
 #import "PerformTestTableViewController.h"
+#import "CoreDataHelper.h"
 
 @implementation ViewController
 
-@synthesize manageObjectContext;
+@synthesize manageObjectContext, performtest;
 
 - (void)didReceiveMemoryWarning
 {
@@ -20,12 +21,28 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+- (void)checkCountQuestion {
+    NSMutableArray *questionListData = (NSMutableArray *)[CoreDataHelper getObjectsForEntity:@"Questions" withSortKey:nil andSortAscending:YES andContext:self.manageObjectContext];
+    
+    if ([questionListData count] == 0) {
+      //  [self.performtest setEnabled:NO];
+        [self.performtest setHidden:YES];
+    } else {
+        ///[self.performtest setEnabled:YES];
+        [self.performtest setHidden:NO];
+    }
+    
+}
+
+
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
 }
 
 - (void)viewDidUnload
@@ -38,6 +55,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self checkCountQuestion];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -69,18 +87,14 @@
         QuestionListTableViewController *qestionListTableViewController = (QuestionListTableViewController *)[[navController viewControllers] lastObject];
         qestionListTableViewController.managedObjectContext = manageObjectContext;
     
+        
     } else if ([[segue identifier] isEqualToString:@"PerformTest"])
     {
         UINavigationController *navController = (UINavigationController *)[segue destinationViewController];
         PerformTestTableViewController *performTestTableViewController = (PerformTestTableViewController *)[[navController viewControllers] lastObject];
         performTestTableViewController.managedObjectContext = manageObjectContext;
-        
-       /* PerformTestTableViewController *performTestTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PerformTestTableViewController"];
-        */
-       // performTestTableViewController.managedObjectContext = self.manageObjectContext;
-        
-        
-       // [self.navigationController pushViewController:performTestTableViewController animated:YES];
+       
+
     } else
     {
         [super prepareForSegue:segue sender:sender];

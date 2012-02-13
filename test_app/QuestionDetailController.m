@@ -9,7 +9,7 @@
 #import "QuestionDetailController.h"
 #import "CoreDataHelper.h"
 #import "EditQuestionTitleController.h"
-
+#import "SelCorrectAnswerTableViewController.h"
 
 @implementation QuestionDetailController
 
@@ -56,10 +56,6 @@
         [questionTitle setText:[currentQuestion name]];
     }
     
-     
-    
-    
-    
     //Set editing mod
     [self.tableView setEditing: YES animated: YES];
     self.tableView.allowsSelectionDuringEditing = YES;
@@ -86,6 +82,12 @@
 }
 
 - (IBAction)editSaveButtonPressed:(id)sender {
+    [self SaveCurrentQuestion];
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+
+- (void)SaveCurrentQuestion{
     if (!currentQuestion)
         self.currentQuestion = (Questions *)[NSEntityDescription insertNewObjectForEntityForName:@"Questions" inManagedObjectContext:self.managedObjectContext];
     [self.currentQuestion setName:[questionTitle text]];
@@ -93,13 +95,40 @@
     NSError *error = nil;
     if (![self.managedObjectContext save:&error])
         NSLog(@"Failed to add new question item with error: %@",[error domain]);
+}
+- (void)DeleteAnswer: (NSUInteger)answerIndex{
+    //Get reference for the answer
+    Answers *answerToDelete = [self.answerListData objectAtIndex:answerIndex];
     
-    [self.navigationController popViewControllerAnimated:YES];
+    //Remove from db
+    [self.managedObjectContext deleteObject:answerToDelete];
     
+    //Remove from data array 
+    [answerListData removeObjectAtIndex:answerIndex];
+    
+    if (answerToDelete.correct){
+        if ([answerListData count] > 0){
+            [[answerListData objectAtIndex:0] setCorrect:YES];
+        }
+    }
+    
+    
+    NSError *error = nil;
+    if (![self.managedObjectContext save:&error])
+        NSLog(@"Failed to remove answer item with error: %@", [error domain]);
+
 }
 
-- (IBAction)resignKeyboard:(id)sender {
-    [sender resignFirstResponder];
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    
+    [textField setUserInteractionEnabled:YES];
+    [textField resignFirstResponder];
+    return YES;
+}
+
+- (IBAction)textFieldDidEndEditing:(UITextField *)textField{
+	[self SaveCurrentQuestion];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -153,10 +182,12 @@
 				cell.accessoryType = UITableViewCellAccessoryNone;
 			}
 			
-            Answers *currAnswer = [answerListData objectAtIndex:row];
-            cell.textLabel.text = currAnswer.name;
+           // Answers *currAnswer = [answerListData objectAtIndex:row];
+            cell.textLabel.text = [[answerListData objectAtIndex:row] name];
+           // cell.textLabel.text = currAnswer.name;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            if (currAnswer.correct == YES){
+            cell.editingAccessoryType = UITableViewCellAccessoryNone;
+            if ([[answerListData objectAtIndex:row] correct] == YES){
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 cell.editingAccessoryType = UITableViewCellAccessoryCheckmark; 
             }
@@ -187,7 +218,11 @@
             questionTitle.tag = 1;
             [cell.contentView addSubview:questionTitle];
         } 
+        questionTitle.delegate = self;
+    //    theTextField.keyboardType = UIKeyboardTypeDefault;
+     //   theTextField.returnKeyType = UIReturnKeyDone;
         
+        questionTitle.returnKeyType = UIReturnKeyDone;
         questionTitle = (UITextField *)[cell viewWithTag:1];
         questionTitle.text = [currentQuestion valueForKey:@"name"];
         questionTitle.borderStyle = UITextBorderStyleNone;
@@ -199,8 +234,19 @@
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-            cell.accessoryType = UITableViewCellAccessoryNone;
+          //  cell.accessoryType = UITableViewCellAccessoryNone;
         }
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        for (int i = 0; i < [answerListData count]; i++) {
+            if ([[answerListData objectAtIndex:i] correct])
+            {
+                cell.textLabel.text = [[answerListData objectAtIndex:i] name];
+                break;
+            }
+        }
+        
         
     } else {
         static NSString *CellIdentifier = @"GenericCell";
@@ -219,47 +265,26 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
+        if ([[answerListData objectAtIndex:indexPath.row] correct] == YES){
+            deleteIndexPath = indexPath;
             
-        
-        
-        //Get reference for the answer
-        Answers *answerToDelete = [self.answerListData objectAtIndex:indexPath.row];
-        
-        if ([answerToDelete correct] == YES){
             UIAlertView *alert = [[UIAlertView alloc] 
-                                  initWithTitle: @"Delete" 
-                                  message:  [NSString stringWithFormat:@"Do you really want to delete correct answer: “%@”, ?", answerToDelete.name]
+                                  initWithTitle: @"Delete current Answer" 
+                                  message:  [NSString stringWithFormat:@"Do you really want to delete correct answer: “%@”, ?", [[answerListData objectAtIndex:indexPath.row] name]]
                                   delegate: self
-                                  cancelButtonTitle: @"Cancel"
+                                  cancelButtonTitle: @"Delete"
                                   
-                                  otherButtonTitles: @"Delete", nil];
+                                  otherButtonTitles: @"Cancel", nil];
             [alert show];
-#pragma mark We have to stop after negative answer
-        }
-        
-        //Remove from db
-        [self.managedObjectContext deleteObject:answerToDelete];
-        
-        //Remove from data array 
-        [answerListData removeObjectAtIndex:indexPath.row];
+        } else {
+            [self DeleteAnswer:indexPath.row];
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 
-        NSError *error = nil;
-        if (![self.managedObjectContext save:&error])
-            NSLog(@"Failed to remove answer item with error: %@", [error domain]);
-        
-        [tableView beginUpdates];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [tableView endUpdates];
+        }
+       // [tableView reloadData];
     }
     if (editingStyle == UITableViewCellEditingStyleInsert) {
-        
-        editQuestionTitleController = [self.storyboard instantiateViewControllerWithIdentifier:@"EditAnswerController"];
-        
-        editQuestionTitleController.managedObjectContext = self.managedObjectContext;
-        editQuestionTitleController.currentQuestion = self.currentQuestion;
-        
-        [self.navigationController pushViewController:editQuestionTitleController animated:YES];
+        [self performSegueWithIdentifier:@"EditAnswerSegue" sender:nil];
     }
     
 }
@@ -304,21 +329,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSInteger section = indexPath.section;
-  // UITableViewController *nextViewController = nil;
-    
-    /*
-     What to do on selection depends on what section the row is in.
-     For Type, Instructions, and Ingredients, create and push a new view controller of the type appropriate for the next screen.
-     */
-  /*
-    UIAlertView *alert = [[UIAlertView alloc] 
-                          initWithTitle: @"Delete" 
-                          message: @"Do you really want to delete “George W. Bush”?" 
-                          delegate: self
-                          cancelButtonTitle: @"Cancel"
-                          otherButtonTitles: @"Of course!", nil];
-    [alert show];
-    */
+
     switch (section) {
         case QUESTION_TITLE:
             [tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -326,26 +337,40 @@
             break;
 			
         case ANSWERS_SECTION:
-           [tableView deselectRowAtIndexPath:indexPath animated:NO];
-            editQuestionTitleController = [self.storyboard instantiateViewControllerWithIdentifier:@"EditAnswerController"];
-            
-            editQuestionTitleController.managedObjectContext = self.managedObjectContext;
-            editQuestionTitleController.currentQuestion = self.currentQuestion;
-            
+            [tableView deselectRowAtIndexPath:indexPath animated:NO];
             if (indexPath.row < [currentQuestion.answer count]){
-                editQuestionTitleController.currentAnswer = [self.answerListData objectAtIndex:indexPath.row];
+                [self performSegueWithIdentifier:@"EditAnswerSegue" sender:[self.answerListData objectAtIndex:indexPath.row]];
+            } else {
+                [self performSegueWithIdentifier:@"EditAnswerSegue" sender:nil];
             }
-            [self.navigationController pushViewController:editQuestionTitleController animated:YES];
             
             break;
         case CORRECT_SELECTION:
-            
+                [self performSegueWithIdentifier:@"ChooseCorrectAnswerSegue" sender:nil];
             break;
             
         default:
             break;
     }      
 }
+
+#pragma mark - Alert View message
+- (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    // the user clicked one of the OK/Cancel buttons
+    if (buttonIndex == 1)
+    {
+        // do nothing
+    }
+    else
+    {
+        [self DeleteAnswer:deleteIndexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:deleteIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView reloadData];
+    }
+}
+
+#pragma mark -
+
 
 - (void) readDataForAnswersTable {
 
@@ -356,16 +381,23 @@
     [self.tableView reloadData];
 }
 
+- (void)selCorrectAnswersViewController:(SelCorrectAnswerTableViewController *)controller didSelectAnswer:(NSString *)answer {
+   // delegate for selected correct question
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    
-   /* 
-    if ([[segue identifier] isEqualToString:@"EditQuestion"]){
-        EditQuestionTitleController *qdc = (EditQuestionTitleController *)[segue destinationViewController];
-        qdc.managedObjectContext = self.managedObjectContext;
-      //  qdc.currentQuestion = self.currentQestion;
-        
-    }*/
+    if ([[segue identifier] isEqualToString:@"EditAnswerSegue"]){
+        EditQuestionTitleController *controller = (EditQuestionTitleController *)[segue destinationViewController];
+        controller.managedObjectContext = managedObjectContext;
+        controller.currentQuestion = self.currentQuestion;
+        controller.currentAnswer = sender;
+    }
+    if ([[segue identifier] isEqualToString:@"ChooseCorrectAnswerSegue"]){
+        SelCorrectAnswerTableViewController *controller = (SelCorrectAnswerTableViewController *)[segue destinationViewController];
+        controller.managedObjectContext = managedObjectContext;
+        controller.answerListData = answerListData;
+        controller.delegate = self;
+    }
 }
 
 @end

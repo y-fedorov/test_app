@@ -13,10 +13,7 @@
 
 @interface PerformTestTableViewController : UITableViewController <UINavigationControllerDelegate>  {
     @private
-        NSTimer *timer;
-    
         NSDate* startTime;
-NSDate* startTime2;
     
         NSInteger currentQuestionIndex;
         NSInteger correctAnwers;
@@ -41,9 +38,7 @@ NSDate* startTime2;
 - (IBAction)skipQuestionBtn:(id)sender;
 - (IBAction)finishTestBtn:(id)sender;
 - (IBAction)restartTestBtn:(id)sender;
-
-@property (nonatomic, retain) NSTimer *timer;
-- (void)theActionMethod;
+- (IBAction)cancelPressed;
 
 
 @end

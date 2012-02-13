@@ -12,7 +12,7 @@
 #import "Answers.h"
 #import "QuestionDetailController.h"
 #import "EditQuestionTitleController.h"
-
+#import "AddQuestionTitleController.h"
 
 @implementation QuestionListTableViewController
 
@@ -46,6 +46,10 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    //Set editing mod
+    [self.tableView setEditing: YES animated: YES];
+    self.tableView.allowsSelectionDuringEditing = YES;
 }
 
 - (void)viewDidUnload
@@ -113,7 +117,7 @@
     
     cell.textLabel.text = [currentCell name];
     cell.detailTextLabel.text = [NSString stringWithFormat: @"Answers: %d", answerCount];
-    
+    cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
                                  
     return cell;
 }
@@ -128,29 +132,61 @@
 */
 
 
+- (void) DeleteQuestion:(NSUInteger)selectedIndex {
+    //Get reference to the table item in our cache array
+    Questions *itemToDelete = [self.questionListData objectAtIndex:selectedIndex];
+    
+    //Delete selected qestion item from db
+    [self.managedObjectContext deleteObject:itemToDelete];
+    
+    //Delete selected qestion item from cache array 
+    [questionListData removeObjectAtIndex:selectedIndex];
+    
+    NSError *error = nil;
+    if (![self.managedObjectContext save:&error])
+        NSLog(@"Failed to remove qestion item with error: %@",[error domain]);
+}
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-        //Get reference to the table item in our cache array
-        Questions *itemToDelete = [self.questionListData objectAtIndex:indexPath.row];
+        deleteIndexPath = indexPath;
         
-        //Delete selected qestion item from db
-        [self.managedObjectContext deleteObject:itemToDelete];
+        UIAlertView *alert = [[UIAlertView alloc] 
+                              initWithTitle: @"Delete Question" 
+                              message: @"Do you really want to delete this question ?"
+                              delegate: self
+                              cancelButtonTitle: @"Delete"
+                              otherButtonTitles: @"Cancel", nil];
+        [alert show];
         
-        //Delete selected qestion item from cache array 
-        [questionListData removeObjectAtIndex:indexPath.row];
+        //[self DeleteQuestion:indexPath.row];
         
-        NSError *error = nil;
-        if (![self.managedObjectContext save:&error])
-            NSLog(@"Failed to remove qestion item with error: %@",[error domain]);
         
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }  
 }
 
+#pragma mark - Alert View message
+- (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    // the user clicked one of the OK/Cancel buttons
+    if (buttonIndex == 1)
+    {
+        //do nothing
+    }
+    else
+    {
+        [self DeleteQuestion:deleteIndexPath.row];
+        
+        // Delete the row from the data source
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:deleteIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+        [self.tableView reloadData];
+    }
+}
+
+#pragma mark -
 
 /*
 // Override to support rearranging the table view.
@@ -190,6 +226,21 @@
                         
 }
 
+-(IBAction)cancelPressed {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark - AddQuestionTitleDelegate
+- (void)addQuestionTitleDidCancel:(AddQuestionTitleController *)controller
+{
+  //  do nothing...
+}
+- (void)addQuestionTitleDidSave:(AddQuestionTitleController *)controller selQuestion:(Questions *) selQuestion;
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+
+    [self performSegueWithIdentifier:@"AddedQuestionItem" sender:selQuestion];
+}
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
     
@@ -198,12 +249,18 @@
         qdc.managedObjectContext = managedObjectContext;
         NSInteger selectedIndex = [[self.tableView indexPathForSelectedRow] row];
         qdc.currentQuestion = [questionListData objectAtIndex:selectedIndex];
+
     }
+    if ([[segue identifier] isEqualToString:@"AddedQuestionItem"]){
+        QuestionDetailController *qdc = (QuestionDetailController *)[segue destinationViewController];
+        qdc.managedObjectContext = managedObjectContext;
+        qdc.currentQuestion = sender;
+    } 
     if ([[segue identifier] isEqualToString:@"AddQuestionItem"]){
-        EditQuestionTitleController *eqtc = (EditQuestionTitleController *)[segue destinationViewController];
-        eqtc.managedObjectContext = managedObjectContext;
-       // NSInteger selectedIndex = [[self.tableView indexPathForSelectedRow] row];
-       // eqtc.currentQuestion = [questionListData objectAtIndex:selectedIndex];
+        UINavigationController *navController = (UINavigationController *)[segue destinationViewController];
+        AddQuestionTitleController *aqtc = (AddQuestionTitleController *)[[navController viewControllers] lastObject];
+        aqtc.managedObjectContext = managedObjectContext;
+        aqtc.delegate = self;
     }
 }
 

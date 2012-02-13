@@ -13,35 +13,43 @@
 
 @implementation PerformTestTableViewController
 
-@synthesize timer, managedObjectContext, questionListData, answerListData, currentQuestion;
+@synthesize managedObjectContext, questionListData, answerListData, currentQuestion;
 
 #define QUESTION_TITLE 0
 #define ANSWERS_SECTION 1
 
+- (void)updateTitle {
+    [self.navigationItem setTitle:[NSString stringWithFormat:@"( %d / %d )",currentQuestionIndex+1,[questionListData count]]];
+}
 
 - (void)nextQuestion {
     currentQuestionIndex++;
     currentQuestion = [questionListData objectAtIndex:currentQuestionIndex];
     [self readDataForAnswersTable];
     [self.tableView reloadData];
- //   [self.navigationItem setTitle:[NSString stringWithFormat:@"( %d / %d )",currentQuestionIndex,[questionListData count]]];
+    [self updateTitle];
 }
 
 - (void)finishTest {
-    startTime2 = [NSDate date];
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSMutableDictionary *dic = (NSMutableDictionary *)appDelegate.d1;
     
+
+    NSTimeInterval todaysDiff = -[startTime timeIntervalSinceNow];
+
+    div_t h = div(todaysDiff, 3600);
+    int hours = h.quot;
     
-    NSTimeInterval lastDiff = [startTime2 timeIntervalSinceNow];
-    NSTimeInterval todaysDiff = [startTime timeIntervalSinceNow];
-    // NSTimeInterval todaysDiff = [currTime timeIntervalSinceNow];
-    NSTimeInterval dateDiff = lastDiff - todaysDiff;
+    div_t m = div(h.rem, 60);
+    int minutes = m.quot;
+    int seconds = m.rem;
+    NSLog(@"%d:%d:%d", hours, minutes, seconds);
+    NSString *string = [NSString stringWithFormat:@"%02li:%02li:%02li",hours,minutes,seconds];
     
     [dic setObject:[NSString stringWithFormat:@"%d", unansweredQuestions] forKey:@"unansweredQuestions"];
     [dic setObject:[NSString stringWithFormat:@"%d", uncorrectAnswers] forKey:@"uncorrectAnswers"];
     [dic setObject:[NSString stringWithFormat:@"%d", correctAnwers] forKey:@"correctAnwers"];
-    [dic setObject:[NSString stringWithFormat:@"%d:%d",floor(dateDiff / 60),floor(dateDiff - (dateDiff / 60) * 60)] forKey:@"testingTime"];
+    [dic setObject:[NSString stringWithFormat:@"%@", string] forKey:@"testingTime"];
 
      
     testresults = [self.storyboard instantiateViewControllerWithIdentifier:@"TestResultsController"];
@@ -55,10 +63,12 @@
     uncorrectAnswers = 0;
     
     currentQuestionIndex = 0;
+    [self readDataForTable];
     currentQuestion = [questionListData objectAtIndex:currentQuestionIndex];
     [self readDataForAnswersTable];
+    [self updateTitle];
     startTime = [NSDate date];
-    
+    [self.tableView reloadData];
 }
 
 - (void)skipQuestion {
@@ -109,6 +119,10 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+   // [self.navigationItem setLeftItemsSupplementBackButton:YES];
+    
+    
 }
 
 - (void)viewDidUnload
@@ -125,37 +139,10 @@
 {
     [super viewWillAppear:animated];
     
-    [self readDataForTable];
-    [self startTest];
     
-    
-   /* TIMER!!!
-    NSDate* currentDate = [NSDate date];
-    
-    NSDateFormatter *formatter = nil;
-	formatter = [[NSDateFormatter alloc] init];
-	[formatter setTimeStyle:NSDateFormatterShortStyle];
-	NSLog(@"Current time: %@", [formatter stringFromDate:currentDate]);
-    
-    timer = [NSTimer scheduledTimerWithTimeInterval:40.0 target:self selector:@selector(theActionMethod) userInfo:nil repeats:NO];
-    
-    //sleep(456);
-    
-    NSDate *now = [NSDate date];
-    NSLog(@"Current now time: %@", [formatter stringFromDate:now]);
-    NSTimeInterval lastDiff = [currentDate timeIntervalSinceNow];
-    NSTimeInterval todaysDiff = [now timeIntervalSinceNow];
-    NSTimeInterval dateDiff = lastDiff - todaysDiff;
-    NSInteger minutes = floor(dateDiff / 60);
-    NSInteger seconds = floor(dateDiff - minutes * 60);
-    NSLog(@"Between: %d:%d",minutes,seconds);
-    */
+    [self startTest]; 
 }
 
-// TIMERS METHOD!
-- (void)theActionMethod {
-    NSLog(@"Me is here at 1 minute delay");
-}
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -165,6 +152,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -196,8 +184,6 @@
             break;
         case ANSWERS_SECTION:
             rows = [currentQuestion.answer count];
-         //   rows = [answerListData count];
-            //rows = 4;
             break;
         default:
             break;
@@ -275,8 +261,10 @@
 - (void)readDataForTable {
     questionListData = [CoreDataHelper getObjectsForEntity:@"Questions" withSortKey:nil andSortAscending:YES andContext:self.managedObjectContext];
     
-    //[self.tableView reloadData];
 }
+
+
+
 
 - (void)readDataForAnswersTable {
     answerListData = [[NSMutableArray alloc] initWithArray:[currentQuestion.answer allObjects]];
@@ -311,6 +299,10 @@
             break;
     }
     
+}
+
+-(IBAction)cancelPressed {
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end

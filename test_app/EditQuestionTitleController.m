@@ -12,13 +12,15 @@
 
 @implementation EditQuestionTitleController
 
-@synthesize currentQuestion, currentAnswer, answerTitle, managedObjectContext;
+@synthesize currentQuestion, currentAnswer, answerTitle, managedObjectContext/*, delegate*/;
+
 
 
 - (IBAction)editSaveButtonPressed:(id)sender {
   
     if (!currentAnswer){
         self.currentAnswer = (Answers *)[NSEntityDescription insertNewObjectForEntityForName:@"Answers" inManagedObjectContext:self.managedObjectContext];
+        NSLog(@"current answers count: %i",[currentQuestion.answer count]);
         if ([currentQuestion.answer count] == 0){
             self.currentAnswer.correct = true;
         } else {
@@ -65,6 +67,9 @@
 
 
     self.navigationItem.title = @"Edit Answer"; 
+    
+    
+
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -125,7 +130,7 @@
 {
     UITableViewCell *cell = nil;
     
-    static NSString *AnswerCellIdentifier = @"AnswerCell";
+    static NSString *AnswerCellIdentifier = @"AnswerTitleCell";
     cell = [tableView dequeueReusableCellWithIdentifier:AnswerCellIdentifier];
     if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier]; 
@@ -137,8 +142,9 @@
     }
     answerTitle = (UITextField *)[cell viewWithTag:1];
     answerTitle.text = [currentAnswer name];
+
     answerTitle.borderStyle = UITextBorderStyleNone;
-   
+   [answerTitle becomeFirstResponder];
     if ([currentAnswer correct] == YES){
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         cell.editingAccessoryType = UITableViewCellAccessoryCheckmark;
@@ -155,6 +161,25 @@
     return @"Answer title:";
 }
 
+
+#pragma mark - buttons actions
+/*
+-(IBAction)cancelPressed {
+//    [self dismissModalViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+*/
+/*
+-(IBAction)savePressed {
+    //Is anyone listening
+    if([delegate respondsToSelector:@selector(answerTitleEntered: answer_n:)])
+    {
+        //send the delegate function with the amount entered by the user
+        [delegate answerTitleEntered:answerTitle.text answer_n:23];
+    }
+  [self.navigationController popViewControllerAnimated:YES];
+}
+*/
 
 #pragma mark - Table view delegate
 

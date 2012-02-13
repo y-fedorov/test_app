@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A932059114D55D0E00043389 /* Answers.m in Sources */ = {isa = PBXBuildFile; fileRef = A932059014D55D0D00043389 /* Answers.m */; };
 		A932059414D55D0E00043389 /* Questions.m in Sources */ = {isa = PBXBuildFile; fileRef = A932059314D55D0E00043389 /* Questions.m */; };
+		A981D44114E815180049FE92 /* AddQuestionTitleController.m in Sources */ = {isa = PBXBuildFile; fileRef = A981D44014E815180049FE92 /* AddQuestionTitleController.m */; };
+		A981D44514E843290049FE92 /* SelCorrectAnswerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A981D44414E843280049FE92 /* SelCorrectAnswerTableViewController.m */; };
 		A995B56714D606B80029B578 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8DAD314D53C4700B68340 /* AppDelegate.m */; };
 		A9DE8FD314DB1B180038825E /* QuestionListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DE8FD214DB1B180038825E /* QuestionListTableViewController.m */; };
 		A9DE8FD614DB26D70038825E /* CoreDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DE8FD514DB26D70038825E /* CoreDataHelper.m */; };
@@ -25,6 +27,7 @@
 		A9F4956014DDB45900765A27 /* EditQuestionTitleController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4955F14DDB45900765A27 /* EditQuestionTitleController.m */; };
 		A9F4956814DEAE9100765A27 /* PerformTestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4956714DEAE9100765A27 /* PerformTestTableViewController.m */; };
 		A9F4956D14DEEBC200765A27 /* TestResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4956C14DEEBC100765A27 /* TestResultsViewController.m */; };
+		A9F4957714DFD17B00765A27 /* test_app.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A9F4957614DFD17B00765A27 /* test_app.sqlite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +35,10 @@
 		A932059014D55D0D00043389 /* Answers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Answers.m; path = test_app/Answers.m; sourceTree = "<group>"; };
 		A932059214D55D0E00043389 /* Questions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Questions.h; path = test_app/Questions.h; sourceTree = "<group>"; };
 		A932059314D55D0E00043389 /* Questions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Questions.m; path = test_app/Questions.m; sourceTree = "<group>"; };
+		A981D43F14E815180049FE92 /* AddQuestionTitleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddQuestionTitleController.h; sourceTree = "<group>"; };
+		A981D44014E815180049FE92 /* AddQuestionTitleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddQuestionTitleController.m; sourceTree = "<group>"; };
+		A981D44314E843280049FE92 /* SelCorrectAnswerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelCorrectAnswerTableViewController.h; sourceTree = "<group>"; };
+		A981D44414E843280049FE92 /* SelCorrectAnswerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelCorrectAnswerTableViewController.m; sourceTree = "<group>"; };
 		A9DE8FD114DB1B180038825E /* QuestionListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionListTableViewController.h; sourceTree = "<group>"; };
 		A9DE8FD214DB1B180038825E /* QuestionListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionListTableViewController.m; sourceTree = "<group>"; };
 		A9DE8FD414DB26D70038825E /* CoreDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataHelper.h; path = test_app/CoreDataHelper.h; sourceTree = "<group>"; };
@@ -59,6 +66,7 @@
 		A9F4956714DEAE9100765A27 /* PerformTestTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerformTestTableViewController.m; sourceTree = "<group>"; };
 		A9F4956B14DEEBC100765A27 /* TestResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestResultsViewController.h; sourceTree = "<group>"; };
 		A9F4956C14DEEBC100765A27 /* TestResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestResultsViewController.m; sourceTree = "<group>"; };
+		A9F4957614DFD17B00765A27 /* test_app.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; name = test_app.sqlite; path = db/test_app.sqlite; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				A9E8DAD514D53C4700B68340 /* MainStoryboard.storyboard */,
+				A9F4957614DFD17B00765A27 /* test_app.sqlite */,
 				A9E8DACB14D53C4700B68340 /* test_app-Info.plist */,
 				A9E8DACC14D53C4700B68340 /* InfoPlist.strings */,
 				A9E8DACF14D53C4700B68340 /* main.m */,
@@ -160,8 +169,12 @@
 		A9F4956A14DEAEC100765A27 /* ManageTestData */ = {
 			isa = PBXGroup;
 			children = (
+				A981D44314E843280049FE92 /* SelCorrectAnswerTableViewController.h */,
+				A981D44414E843280049FE92 /* SelCorrectAnswerTableViewController.m */,
 				A9F4955E14DDB45900765A27 /* EditQuestionTitleController.h */,
 				A9F4955F14DDB45900765A27 /* EditQuestionTitleController.m */,
+				A981D43F14E815180049FE92 /* AddQuestionTitleController.h */,
+				A981D44014E815180049FE92 /* AddQuestionTitleController.m */,
 				A9DE8FD714DB30660038825E /* QuestionDetailController.h */,
 				A9DE8FD814DB30660038825E /* QuestionDetailController.m */,
 				A9DE8FD114DB1B180038825E /* QuestionListTableViewController.h */,
@@ -222,6 +235,7 @@
 			files = (
 				A9E8DACE14D53C4700B68340 /* InfoPlist.strings in Resources */,
 				A9E8DAD714D53C4700B68340 /* MainStoryboard.storyboard in Resources */,
+				A9F4957714DFD17B00765A27 /* test_app.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +258,8 @@
 				A9F4956014DDB45900765A27 /* EditQuestionTitleController.m in Sources */,
 				A9F4956814DEAE9100765A27 /* PerformTestTableViewController.m in Sources */,
 				A9F4956D14DEEBC200765A27 /* TestResultsViewController.m in Sources */,
+				A981D44114E815180049FE92 /* AddQuestionTitleController.m in Sources */,
+				A981D44514E843290049FE92 /* SelCorrectAnswerTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

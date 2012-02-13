@@ -10,9 +10,10 @@
 #import "Questions.h"
 #import "Answers.h"
 #import "EditQuestionTitleController.h"
+#import "SelCorrectAnswerTableViewController.h"
 
-@interface QuestionDetailController : UITableViewController <UINavigationControllerDelegate, UITableViewDelegate> {
-    EditQuestionTitleController *editQuestionTitleController;
+@interface QuestionDetailController : UITableViewController <UINavigationControllerDelegate, UITableViewDelegate, UITextFieldDelegate, SelCorrectAnswersDelegate, UIAlertViewDelegate /*EnterAnswerTitleDelegate*/>{
+    NSIndexPath *deleteIndexPath;
 }
 
 @property (strong, nonatomic) Questions *currentQuestion;
@@ -24,5 +25,9 @@
 @property (strong, nonatomic) IBOutlet UITextField *questionTitle;
 - (IBAction)editSaveButtonPressed:(id)sender;
 - (void)readDataForAnswersTable;
+- (void)SaveCurrentQuestion;
+- (void)DeleteAnswer: (NSUInteger)answerIndex;
+//-(void)EnterAnswerTitleDelegate:(NSString*)answer;
+
 
 @end

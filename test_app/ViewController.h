@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Questions.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSManagedObjectContext *manageObjectContext;
-
+@property (nonatomic, retain) IBOutlet UIButton *performtest;
 - (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender;
 
 @end
